@@ -1,0 +1,306 @@
+// Cores temáticas para o tema galáctico
+@use "sass:color";
+$dark-space: #0a0a1a;
+$neon-blue: #4df0fd;
+$alien-green: #90feb5;
+$purple-haze: #9d65ff;
+$cosmic-pink: #ff4df0;
+
+// Variáveis reutilizáveis
+$action-color: $alien-green;
+$container-bg: rgba(0, 0, 0, 0.7);
+$text-color: #ffffff;
+$input-bg: rgba(255, 255, 255, 0.1);
+$border-radius: 8px;
+
+// Mixins
+@mixin flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@mixin glow-effect($color) {
+    box-shadow: 0 0 10px $color, 0 0 20px rgba($color, 0.5);
+}
+
+// Estilos globais
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    position: relative; // Importante para z-index
+}
+
+.background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background:
+        linear-gradient(#0a0a1ab3, rgba(10, 10, 26, 0.7)),
+        url('./images/background1.jpg') no-repeat center center/cover;
+    z-index: -2; // Alterado para -2 para garantir hierarquia
+    filter: brightness(0.6);
+}
+
+.container {
+    position: relative;
+    z-index: 1; // Garante que o conteúdo fique acima
+    max-width: 600px;
+    margin: 2rem;
+    padding: 2rem;
+    background-color: $container-bg;
+    border-radius: $border-radius;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba($neon-blue, 0.2);
+    @include glow-effect(rgba($neon-blue, 0.2));
+    animation: hue-rotate 20s linear infinite;
+
+    h1 {
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        color: $alien-green;
+        text-shadow: 0 0 8px rgba($alien-green, 0.5);
+    }
+
+    .subtitle {
+        margin-bottom: 2rem;
+        font-weight: 100;
+        letter-spacing: 1px;
+        color: rgba($text-color, 0.8);
+    }
+}
+
+.input-group {
+    margin-bottom: 2rem;
+
+    label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 400;
+        color: $text-color;
+    }
+
+    input {
+        width: 100%;
+        padding: 12px 15px;
+        background-color: $input-bg;
+        border: 1px solid rgba($neon-blue, 0.3);
+        border-radius: $border-radius;
+        color: $text-color;
+        font-size: 16px;
+        transition: all 0.3s ease;
+
+        &:focus {
+            outline: none;
+            border-color: $alien-green;
+            @include glow-effect(rgba($alien-green, 0.3));
+        }
+
+        &::placeholder {
+            color: rgba($text-color, 0.5);
+        }
+    }
+}
+
+.buttons-container {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+
+    .button--bubble__container {
+        flex: 1;
+    }
+}
+
+.result-container {
+    label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 400;
+        color: $text-color;
+    }
+
+    .result-output {
+        width: 100%;
+        padding: 15px;
+        background-color: $input-bg;
+        border: 1px solid rgba($purple-haze, 0.3);
+        border-radius: $border-radius;
+        color: $purple-haze;
+        font-size: 24px;
+        font-weight: 700;
+        text-align: center;
+        min-height: 60px;
+        @include flex-center;
+        @include glow-effect(rgba($purple-haze, 0.1));
+    }
+}
+
+// Estilos dos botões animados (adaptados do código fornecido)
+$dark-blue: #222;
+$green: $alien-green;
+
+.button {
+    -webkit-font-smoothing: antialiased;
+    background-color: $dark-blue;
+    border: none;
+    color: #fff;
+    display: inline-block;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 100;
+    text-decoration: none;
+    user-select: none;
+    letter-spacing: 1px;
+    color: white;
+    padding: 20px 40px;
+    text-transform: uppercase;
+    transition: all 0.1s ease-out;
+    width: 100%;
+    cursor: pointer;
+
+    &:hover {
+        background-color: $action-color;
+        color: #fff;
+    }
+
+    &:active {
+        transform: scale(0.95);
+    }
+
+    &--bubble {
+        position: relative;
+        z-index: 2;
+        color: white;
+        background: none;
+
+        &:hover {
+            background: none;
+        }
+
+        &:hover+.button--bubble__effect-container .circle {
+            background: color.adjust($action-color, $lightness: -15%);
+        }
+
+        &:hover+.button--bubble__effect-container .button {
+            background: color.adjust($action-color, $lightness: -15%);
+        }
+
+        &:active+.button--bubble__effect-container {
+            transform: scale(0.95);
+        }
+
+        &__container {
+            position: relative;
+            display: inline-block;
+
+            .effect-button {
+                position: absolute;
+                width: 50%;
+                height: 25%;
+                top: 50%;
+                left: 25%;
+                z-index: 1;
+                transform: translateY(-50%);
+                background: $dark-blue;
+                transition: background 0.1s ease-out;
+            }
+        }
+    }
+}
+
+.button--bubble__effect-container {
+    position: absolute;
+    display: block;
+    width: 200%;
+    height: 400%;
+    top: -150%;
+    left: -50%;
+    -webkit-filter: url("#goo");
+    filter: url("#goo");
+    transition: all 0.1s ease-out;
+    pointer-events: none;
+
+    .circle {
+        position: absolute;
+        width: 25px;
+        height: 25px;
+        border-radius: 15px;
+        background: $dark-blue;
+        transition: background 0.1s ease-out;
+
+        &.top-left {
+            top: 40%;
+            left: 27%;
+        }
+
+        &.bottom-right {
+            bottom: 40%;
+            right: 27%;
+        }
+    }
+}
+
+.goo {
+    position: absolute;
+    visibility: hidden;
+    width: 1px;
+    height: 1px;
+}
+
+// Animação de rotação de matiz
+@keyframes hue-rotate {
+    from {
+        -webkit-filter: hue-rotate(0);
+        -moz-filter: hue-rotate(0);
+        -ms-filter: hue-rotate(0);
+        filter: hue-rotate(0);
+    }
+
+    to {
+        -webkit-filter: hue-rotate(360deg);
+        -moz-filter: hue-rotate(360deg);
+        -ms-filter: hue-rotate(360deg);
+        filter: hue-rotate(360deg);
+    }
+}
+
+// Responsividade
+@media (max-width: 768px) {
+    .container {
+        margin: 1rem;
+        padding: 1.5rem;
+    }
+
+    .buttons-container {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        h1 {
+            font-size: 1.5rem;
+        }
+
+        .subtitle {
+            font-size: 0.9rem;
+        }
+    }
+
+    .button {
+        padding: 15px 30px;
+        font-size: 12px;
+    }
+}
